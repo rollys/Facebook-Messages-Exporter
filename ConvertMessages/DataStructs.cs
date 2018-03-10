@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using FBConversation;
 namespace DataStructs
 {
     struct sMessage
