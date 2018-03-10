@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<controls>
+  <control>
+    <button1> Źródło </button1>
+  </control>
+  <control>
+    <button2> Eksportuj </button2>
+  </control>
+  <control>
+    <groupbox1> Wybór Źródła </groupbox1>
+  </control>
+  <control>
+    <groupbox2> Konwersacje</groupbox2>
+  </control>
+  <control>
+    <fileToolStripMenuItem> Opcje </fileToolStripMenuItem>
+  </control>
+  <control>
+    <languageToolStripMenuItem> Język </languageToolStripMenuItem>
+  </control>
+</controls> 

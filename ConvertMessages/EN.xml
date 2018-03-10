@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<controls>
+  <control>
+    <button1> Source </button1>
+  </control>
+  <control>
+    <button2> Export </button2>
+  </control>
+  <control>
+    <groupbox1> Source Selection </groupbox1>
+  </control>
+  <control>
+    <groupbox2> Conversations </groupbox2>
+  </control>
+  <control>
+    <fileToolStripMenuItem> Properties </fileToolStripMenuItem>
+  </control>
+  <control>
+    <languageToolStripMenuItem> Language </languageToolStripMenuItem>
+  </control>
+  <control>
+    <label3> Export completed </label3>
+  </control>
+  <control>
+    <column1> File Name </column1>
+  </control>
+  <control>
+    <column2> Conversation </column2>
+  </control>
+  <control>
+    <column3> Number of Messages </column3>
+  </control>
+</controls>

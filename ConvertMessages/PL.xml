@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<controls>
+  <control>
+    <button1> Źródło </button1>
+  </control>
+  <control>
+    <button2> Eksportuj </button2>
+  </control>
+  <control>
+    <groupbox1> Wybór Źródła </groupbox1>
+  </control>
+  <control>
+    <groupbox2> Konwersacje </groupbox2>
+  </control>
+  <control>
+    <fileToolStripMenuItem> Opcje </fileToolStripMenuItem>
+  </control>
+  <control>
+    <languageToolStripMenuItem> Język </languageToolStripMenuItem>
+  </control>
+  <control>
+    <label3> Eksportowanie zakończone </label3>
+  </control>
+  <control>
+    <column1> Nazwa Pliku </column1>
+  </control>
+  <control>
+    <column2> Konwersacja </column2>
+  </control>
+  <control>
+    <column3> Liczba Wiadomości </column3>
+  </control>
+</controls>
