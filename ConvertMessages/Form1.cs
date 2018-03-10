@@ -20,7 +20,7 @@ namespace ConvertMessages
         IList<string> FileNames;
         IList<string> FilePaths;
         IDictionary<string, string> Translations = new Dictionary<string, string>();
-        string dpath;       //directory path
+        string sourcePath;       
         string destinationPath;
 
         public Form1()
@@ -95,15 +95,15 @@ namespace ConvertMessages
             FolderBrowserDialog browserDialog = new FolderBrowserDialog();
             if (browserDialog.ShowDialog() == DialogResult.OK)
             {
-                dpath = browserDialog.SelectedPath;
+                sourcePath = browserDialog.SelectedPath;
 
-                label1.Text = dpath;
+                label1.Text = sourcePath;
 
                 FileNames = new List<string>();
 
                 try
                 {
-                    FilePaths = Directory.GetFiles(dpath).ToList();
+                    FilePaths = Directory.GetFiles(sourcePath).ToList();
                     for (int i = 0; i < FilePaths.Count; ++i)
                     {
                         FileNames.Add(Path.GetFileName(FilePaths[i]));
@@ -193,9 +193,6 @@ namespace ConvertMessages
                                 label3.Text = FileNames[i];
                                 label3.Update();
 
-                                //AddItemToLV(FileNames[i]);
-
-
                                 BackgroundWorker background = new BackgroundWorker();
                                 background.DoWork += Background_DoWork;
                                 background.ProgressChanged += Background_ProgressChanged;
@@ -231,19 +228,12 @@ namespace ConvertMessages
 
         private void Background_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            //throw new NotImplementedException();
-            //MessageBox.Show("Koniec");
 
         }
 
         private void Background_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            ////throw new NotImplementedException();
-            //Conversation conversation = (Conversation)e.UserState;
-            ////UpdateItem(conversation.name, (int)conversation.progress);
-
-            //progressBar1.Value = (int)sender;
-            //ModListViewItem(conversation.name, 2, conversation.messages.Count.ToString());
+           
             progressBar1.Value = e.ProgressPercentage;
         }
 
@@ -254,15 +244,10 @@ namespace ConvertMessages
             double k = 0, pk = k;
             while ((k = conversation.Read(100)) < 1.0)
             {
-                //ProgressChangedEventArgs eventArgs = new ProgressChangedEventArgs(k, conversation);
-                //Background_ProgressChanged(sender, eventArgs);
-
-
                 if (k == pk) worker.ReportProgress(100);
                 else worker.ReportProgress((int)(k * 100));
 
                 pk = k;
-                //UpdateItem(conversation.name, k);
             }
 
             CSVFile f = new CSVFile(conversation.GetTable());

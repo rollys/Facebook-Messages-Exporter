@@ -39,45 +39,6 @@ namespace FBConversation
             _filename = System.IO.Path.GetFileName(Path);
         }
 
-        //bool IsSame(string word, string source, int index)
-        //{
-        //    for (int i = index, k = 0; k < word.Length && i < source.Length; ++i, ++k)
-        //    {
-        //        if (word[k] != source[i])
-        //        {
-        //            return false;
-        //        }
-        //    }
-
-        //    return true;
-        //}
-
-        //IList<string> rReadBetween(string Start, string Stop, string source)
-        //{
-        //    IList<string> readed = new List<string>();
-
-        //    for (int i = 0; i < source.Length; i++)
-        //    {
-        //        if (source[i] == Start[0])
-        //        {
-        //            if (IsSame(Start, source, i))
-        //            {
-        //                i += Start.Length;
-        //                string content = "";
-
-        //                for (; !IsSame(Stop, source, i); ++i)
-        //                {
-        //                    content += source[i].ToString();
-        //                }
-        //                readed.Add(content);
-        //            }
-        //        }
-        //    }
-        //    return readed;
-        //}
-
-        //public IList<string> ReadBetween(string Start, string Sop) => rReadBetween(Start, Sop, htmlcontent);
-
         public void Read()
         {
             _name = rReadBetween(@"<title>", @"</title>", htmlcontent)[0];
