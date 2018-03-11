@@ -132,8 +132,8 @@ namespace MyFileParser
                         string towrite = "";
                         for (int k = 0; k < data.columnanames.Count; k++)
                         {
-                            if (k == 0) towrite += data.columnanames[k];
-                            else towrite += " ; " + data.columnanames[k];
+                            if (k == 0) towrite += data.columnanames[k].Replace(";", "");
+                            else towrite += " ; " + data.columnanames[k].Replace(";", "");
                         }
                     }
 
@@ -143,8 +143,8 @@ namespace MyFileParser
 
                         for (int k = 0; k < data.columnanames.Count; k++)
                         {
-                            if (k == 0) towrite += data.data[i][k];
-                            else towrite += " ; " + data.data[i][k];
+                            if (k == 0) towrite += data.data[i][k].Replace(";", "");
+                            else towrite += " ; " + data.data[i][k].Replace(";", "");
                         }
 
                         sw.WriteLine(towrite);
