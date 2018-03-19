@@ -180,6 +180,7 @@ namespace ConvertMessages
                         destinationPath = browserDialog.SelectedPath;
 
                         groupBox1.Enabled = false;
+                        toolStripComboBox1.Enabled = false;
 
                         for (int i = 0; i < FileNames.Count; ++i)
                         {
@@ -218,6 +219,7 @@ namespace ConvertMessages
 
                         label3.Text = Translations["label3"];
                         groupBox2.Enabled = true;
+                        toolStripComboBox1.Enabled = true;
                     }
                 }
             }
@@ -247,11 +249,15 @@ namespace ConvertMessages
                 pk = k;
             }
 
-            CSVFile f = new CSVFile(conversation.GetTable());
-            f.Save(destinationPath + "\\" + conversation.filename, ";", true);
-            conversation.SaveXml(destinationPath + "\\" + conversation.filename.Replace(".html", "") + ".xml");
-            string[] toindex = new string[] { conversation.filename , conversation.messages.Count.ToString() };
-            f.Save(destinationPath + "\\Index.csv", toindex, ";");
+            if (!XML)
+            {
+                CSVFile f = new CSVFile(conversation.GetTable());
+                f.Save(destinationPath + "\\" + conversation.filename, ";", true);
+            }
+            else
+            {
+                conversation.SaveXml(destinationPath + "\\" + conversation.filename.Replace(".html", "") + ".xml");
+            }
         }
 
         private void toolStripComboBox1_Click(object sender, EventArgs e)

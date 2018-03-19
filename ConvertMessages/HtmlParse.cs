@@ -119,9 +119,9 @@ namespace FBConversation
                     //    writer.WriteElementString("Text", "");
                     //}
 
-                    writer.WriteElementString("User", table.data[i][0].Replace("\\", ""));
-                    writer.WriteElementString("DateTime", table.data[i][1].Replace("\\", ""));
-                    writer.WriteElementString("Text", table.data[i][2].Replace("\\", ""));
+                    writer.WriteElementString("User", table.data[i][0]);
+                    writer.WriteElementString("DateTime", table.data[i][1]);
+                    writer.WriteElementString("Text", XmlConvert.EncodeName( table.data[i][2]));
                     writer.WriteEndElement();
                 }
                 writer.WriteEndElement();
