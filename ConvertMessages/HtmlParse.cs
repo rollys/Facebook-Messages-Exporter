@@ -3,6 +3,8 @@ using System.IO;
 using System.Collections.Generic;
 using DataStructs;
 using MyFileParser;
+using System.Xml;
+using System.Text;
 
 namespace FBConversation
 {
@@ -72,6 +74,60 @@ namespace FBConversation
                 return Data;
             }
             return null;
+        }
+
+        public void SaveXml(string SavePath)
+        {
+            XmlWriterSettings settings = new XmlWriterSettings { Encoding = Encoding.UTF8, Indent = true };
+            FileStream stream = new FileStream(SavePath, FileMode.OpenOrCreate, FileAccess.ReadWrite);
+            StreamWriter streamWriter = new StreamWriter(stream, Encoding.UTF8);
+            using (XmlWriter writer = XmlWriter.Create(streamWriter, settings))
+            {
+                SimpleTable table = GetTable();
+
+                writer.WriteStartElement("Conversation");
+                writer.WriteAttributeString("Users", _name);
+
+                for (int i = 0; i < table.data.Count; ++i)
+                {
+                    writer.WriteStartElement("Message");
+
+                    //try
+                    //{
+                    //    writer.WriteElementString("User", table.data[i][0]);
+                    //}
+                    //catch 
+                    //{
+                    //    writer.WriteElementString("User", "");
+                    //}
+
+                    //try
+                    //{
+                    //    writer.WriteElementString("DateTime", table.data[i][1]);
+                    //}
+                    //catch 
+                    //{
+                    //    writer.WriteElementString("DateTime", "");
+                    //}
+
+                    //try
+                    //{
+                    //    writer.WriteElementString("Text", table.data[i][2]);
+                    //}
+                    //catch
+                    //{
+                    //    writer.WriteElementString("Text", "");
+                    //}
+
+                    writer.WriteElementString("User", table.data[i][0].Replace("\\", ""));
+                    writer.WriteElementString("DateTime", table.data[i][1].Replace("\\", ""));
+                    writer.WriteElementString("Text", table.data[i][2].Replace("\\", ""));
+                    writer.WriteEndElement();
+                }
+                writer.WriteEndElement();
+                writer.WriteEndDocument();
+                writer.Flush();
+            }
         }
     }
 }

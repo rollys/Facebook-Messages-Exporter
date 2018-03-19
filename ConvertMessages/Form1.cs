@@ -17,11 +17,13 @@ namespace ConvertMessages
         IDictionary<string, string> Translations = new Dictionary<string, string>();
         string sourcePath;       
         string destinationPath;
+        bool XML = true;
 
         public Form1()
         {
             InitializeComponent();
 
+            toolStripComboBox1.ComboBox.DataSource = new string[]{ "Save as .XML", "Save as .CSV" };
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
@@ -246,10 +248,16 @@ namespace ConvertMessages
             }
 
             CSVFile f = new CSVFile(conversation.GetTable());
-            f.Save(destinationPath + "\\c_" + conversation.filename, ";", true);
-
-            string[] toindex = new string[] { conversation.filename, conversation.messages.Count.ToString() };
+            f.Save(destinationPath + "\\" + conversation.filename, ";", true);
+            conversation.SaveXml(destinationPath + "\\" + conversation.filename.Replace(".html", "") + ".xml");
+            string[] toindex = new string[] { conversation.filename , conversation.messages.Count.ToString() };
             f.Save(destinationPath + "\\Index.csv", toindex, ";");
+        }
+
+        private void toolStripComboBox1_Click(object sender, EventArgs e)
+        {
+            if (toolStripComboBox1.ComboBox.SelectedItem.ToString() == "Save as .XML") XML = true;
+            else XML = false;
         }
     }
 }
