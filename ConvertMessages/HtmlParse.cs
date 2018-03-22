@@ -84,9 +84,15 @@ namespace FBConversation
             using (XmlWriter writer = XmlWriter.Create(streamWriter, settings))
             {
                 SimpleTable table = GetTable();
-
+                
                 writer.WriteStartElement("Conversation");
-                writer.WriteAttributeString("Users", _name);
+
+                writer.WriteStartElement("Params");
+                writer.WriteElementString("Name", _name);
+                writer.WriteEndElement();
+
+                writer.WriteStartElement("Messages");
+                //writer.WriteAttributeString("Users", _name);
 
                 for (int i = 0; i < table.data.Count; ++i)
                 {
@@ -124,6 +130,7 @@ namespace FBConversation
                     writer.WriteElementString("Text", XmlConvert.EncodeName( table.data[i][2]));
                     writer.WriteEndElement();
                 }
+                writer.WriteEndElement();
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
                 writer.Flush();
