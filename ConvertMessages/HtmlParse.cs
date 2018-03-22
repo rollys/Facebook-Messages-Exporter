@@ -29,7 +29,7 @@ namespace FBConversation
 
         public Conversation(string Path)
         {
-            if (string.IsNullOrEmpty(Path)) throw new Exception("Path can not be empty.");
+            if (string.IsNullOrEmpty(Path)) throw new Exception("Path is null or empty.");
 
             StreamReader sr = new StreamReader(Path);
             htmlcontent = sr.ReadToEnd();
@@ -92,38 +92,10 @@ namespace FBConversation
                 writer.WriteEndElement();
 
                 writer.WriteStartElement("Messages");
-                //writer.WriteAttributeString("Users", _name);
 
                 for (int i = 0; i < table.data.Count; ++i)
                 {
                     writer.WriteStartElement("Message");
-
-                    //try
-                    //{
-                    //    writer.WriteElementString("User", table.data[i][0]);
-                    //}
-                    //catch 
-                    //{
-                    //    writer.WriteElementString("User", "");
-                    //}
-
-                    //try
-                    //{
-                    //    writer.WriteElementString("DateTime", table.data[i][1]);
-                    //}
-                    //catch 
-                    //{
-                    //    writer.WriteElementString("DateTime", "");
-                    //}
-
-                    //try
-                    //{
-                    //    writer.WriteElementString("Text", table.data[i][2]);
-                    //}
-                    //catch
-                    //{
-                    //    writer.WriteElementString("Text", "");
-                    //}
 
                     writer.WriteElementString("User", table.data[i][0]);
                     writer.WriteElementString("DateTime", table.data[i][1]);
