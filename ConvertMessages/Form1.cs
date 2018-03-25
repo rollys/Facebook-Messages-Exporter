@@ -15,7 +15,7 @@ namespace ConvertMessages
         IList<string> FileNames;
         IList<string> FilePaths;
         IDictionary<string, string> Translations = new Dictionary<string, string>();
-        string sourcePath;       
+        string sourcePath;
         string destinationPath;
         bool XML = true;
 
@@ -23,7 +23,7 @@ namespace ConvertMessages
         {
             InitializeComponent();
 
-            toolStripComboBox1.ComboBox.DataSource = new string[]{ "Save as .XML", "Save as .CSV" };
+            toolStripComboBox1.ComboBox.DataSource = new string[] { "Save as .XML", "Save as .CSV" };
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
         }
 
@@ -38,52 +38,89 @@ namespace ConvertMessages
 
         private void SetControlsTexts(string Language)
         {
-            string path = "";
-            if (Directory.GetParent(Directory.GetCurrentDirectory()).GetFiles("*.xml").Length == 0)
+            try
             {
-                FileInfo[] files = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).GetFiles("*.xml");
-                if (files.Length == 0) MessageBox.Show("Could not load languages.");
+                string path = "";
+                if (Directory.GetParent(Directory.GetCurrentDirectory()).GetFiles("*.xml")?.Length == 0)
+                {
+                    try
+                    {
+                        FileInfo[] files = Directory.GetParent(Directory.GetParent(Directory.GetCurrentDirectory()).ToString()).GetFiles("*.xml");
+                        if (files?.Length == 0) MessageBox.Show("Could not load languages.");
+                        else
+                        {
+                            for (int i = 0; i < files.Length; ++i)
+                            {
+                                if (files[i].Name == Language + ".xml")
+                                {
+                                    path = files[i].FullName;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Erron reading parent.\n" + ex.Message);
+                    }
+                }
                 else
                 {
-                    for (int i = 0; i < files.Length; ++i)
+                    try
                     {
-                        if (files[i].Name == Language + ".xml")
+                        FileInfo[] files = Directory.GetParent(Directory.GetCurrentDirectory()).GetFiles("*.xml");
+                        if (files?.Length == 0) MessageBox.Show("Could not load languages.");
+                        else
                         {
-                            path = files[i].FullName;
-                            break;
+                            for (int i = 0; i < files.Length; ++i)
+                            {
+                                if (files[i].Name == Language + ".xml")
+                                {
+                                    path = files[i].FullName;
+                                    break;
+                                }
+                            }
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error reading current\n" + ex.Message);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(path))
+                {
+                    try
+                    {
+                        XmlDocument xml = new XmlDocument();
+
+                        xml.Load(path);
+                        XmlNodeList nodeList = xml.SelectNodes("/controls/control");
+
+                        Translations.Clear();
+
+                        for (int i = 0; i < nodeList.Count; ++i)
+                        {
+                            Translations.Add(nodeList[i].FirstChild.Name, nodeList[i].InnerText);
+                            Control control = Controls[nodeList[i].FirstChild.Name];
+
+                            if (control != null) control.Text = nodeList[i].InnerText;
+                            else
+                            {
+                                control = tableLayoutPanel1.Controls[nodeList[i].FirstChild.Name];
+                                if (control != null) control.Text = nodeList[i].InnerText;
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        MessageBox.Show("Error loading control texts.\n" + e.Message);
                     }
                 }
             }
-
-            if (!string.IsNullOrEmpty(path))
+            catch (Exception ex)
             {
-                try
-                {
-                    XmlDocument xml = new XmlDocument();
-
-                    xml.Load(path);
-                    XmlNodeList nodeList = xml.SelectNodes("/controls/control");
-
-                    Translations.Clear();
-
-                    for (int i = 0; i < nodeList.Count; ++i)
-                    {
-                        Translations.Add(nodeList[i].FirstChild.Name, nodeList[i].InnerText);
-                        Control control = Controls[nodeList[i].FirstChild.Name];
-
-                        if (control != null) control.Text = nodeList[i].InnerText;
-                        else
-                        {
-                            control = tableLayoutPanel1.Controls[nodeList[i].FirstChild.Name];
-                            if (control != null) control.Text = nodeList[i].InnerText;
-                        }
-                    }
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Error loading control texts.\n" + e.Message);
-                }
+                MessageBox.Show("Citical error\n" + ex.Message);
             }
         }
 
@@ -129,11 +166,22 @@ namespace ConvertMessages
 
         private void AddItemToLV(string FileName)
         {
-            if (listView1.Columns.Count == 0)
+            try
             {
-                listView1.Columns.Add(Translations["column1"]);
-                listView1.Columns.Add(Translations["column2"]);
-                listView1.Columns.Add(Translations["column3"]);
+                if (listView1.Columns.Count == 0)
+                {
+                    listView1.Columns.Add(Translations["column1"]);
+                    listView1.Columns.Add(Translations["column2"]);
+                    listView1.Columns.Add(Translations["column3"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("No translations loaded.\n" + ex.Message);
+                for (int i = 0; listView1.Columns.Count <= 3; ++i)
+                {
+                    listView1.Columns.Add("column " + i + 1);
+                }
             }
 
             string[] values = { FileName, "", "" };
@@ -232,7 +280,7 @@ namespace ConvertMessages
 
         private void Background_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-           
+
             progressBar1.Value = e.ProgressPercentage;
         }
 
